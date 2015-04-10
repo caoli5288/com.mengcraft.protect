@@ -6,9 +6,11 @@ import java.io.IOException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.mcstats.Metrics;
 
 import com.mengcraft.protect.entity.EntityEvent;
 import com.mengcraft.protect.entity.MetaFactory;
+import com.mengcraft.protect.entity.PlayerEvent;
 import com.mengcraft.protect.task.WorldTask;
 
 public class Protect extends JavaPlugin {
@@ -27,11 +29,18 @@ public class Protect extends JavaPlugin {
 			spigot(file);
 		}
 		// End modify spigot.yml
-		EntityEvent e = new EntityEvent(new MetaFactory(this));
-		getServer().getPluginManager().registerEvents(e, this);
+		EntityEvent g = new EntityEvent(new MetaFactory(this));
+		getServer().getPluginManager().registerEvents(g, this);
+		PlayerEvent f = new PlayerEvent(this);
+		getServer().getPluginManager().registerEvents(f, this);
+		getServer().getPluginManager().registerEvents(new AntiCheat(), this);
 		Runnable t = new WorldTask(this);
 		getServer().getScheduler().runTaskTimer(this, t, 6000, 6000);
-
+		try {
+			new Metrics(this).start();
+		} catch (IOException e) {
+			getLogger().warning("Cant connect to mcstats.org!");
+		}
 	}
 
 	private void spigot(File file) {
