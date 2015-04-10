@@ -1,0 +1,13 @@
+manager:
+  entity:
+    limit-world: 2500
+    limit-chunk: 16
+    spawner:
+      chance: 30
+    control:
+      sheep:
+        lifetime: -1
+  spigot:
+    view-distance: 4
+    entity-activation: 4
+	tab-complete: false
