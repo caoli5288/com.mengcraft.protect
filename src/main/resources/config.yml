@@ -5,8 +5,8 @@ manager:
     spawner:
       chance: 30
     control:
-      dropped_item:
-        lifetime: 6000
+      sheep:
+        lifetime: 0
   spigot:
     view-distance: 4
     entity-activation: 4

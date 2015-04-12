@@ -1,24 +1,24 @@
 package com.mengcraft.protect.task;
 
-import static com.mengcraft.protect.entity.EntityEvent.META_LIFE;
-
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.bukkit.Chunk;
-import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
-import org.bukkit.metadata.MetadataValue;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Monster;
 
-import com.mengcraft.protect.Main;
+import com.mengcraft.protect.entity.MetaFactory;
 
 public class WorldTask implements Runnable {
 
-	private final Server s;
+	private final MetaFactory f;
+	private final Map<String, Integer> map;
 
 	@Override
 	public void run() {
-		for (World w : s.getWorlds()) {
+		for (World w : f.server().getWorlds()) {
 			task(w);
 		}
 	}
@@ -37,17 +37,42 @@ public class WorldTask implements Runnable {
 	}
 
 	private void task(Entity e) {
-		if (e.hasMetadata(META_LIFE)) {
-			List<MetadataValue> list = e.getMetadata(META_LIFE);
-			int life = list.get(0).asInt();
-			if (life > 0 && life < e.getTicksLived()) {
-				e.remove();
+		if (e instanceof LivingEntity) {
+			String type = e.getType().name();
+			if (map.get(type) != null) {
+				check(map.get(type), e);
+			} else {
+				cache(e);
 			}
 		}
 	}
 
-	public WorldTask(Main p) {
-		this.s = p.getServer();
+	private void cache(Entity e) {
+		String type = e.getType().name();
+		String path = "control." + type.toLowerCase() + ".lifetime";
+		int limit = f.config().getInt(path, -1);
+		if (limit < 0) {
+			if (e instanceof Monster) {
+				limit = 12000;
+			} else {
+				limit = 0;
+			}
+			f.config().set(path, limit);
+		}
+		map.put(type, limit);
+		check(limit, e);
+	}
+
+	private void check(int limit, Entity e) {
+		if (limit > 0 && e.getTicksLived() > limit) {
+			e.remove();
+			System.out.println("WorldTask: Remove a " + e.getType() + " because of " + e.getTicksLived() + " lived.");
+		}
+	}
+
+	public WorldTask(MetaFactory f) {
+		this.f = f;
+		this.map = new HashMap<String, Integer>();
 	}
 
 }

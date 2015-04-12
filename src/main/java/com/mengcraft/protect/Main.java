@@ -1,16 +1,14 @@
 package com.mengcraft.protect;
 
-import java.io.File;
 import java.io.IOException;
 
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mcstats.Metrics;
 
 import com.mengcraft.protect.entity.EntityEvent;
 import com.mengcraft.protect.entity.MetaFactory;
 import com.mengcraft.protect.entity.PlayerEvent;
+import com.mengcraft.protect.task.Spigot;
 import com.mengcraft.protect.task.WorldTask;
 
 public class Main extends JavaPlugin {
@@ -18,53 +16,19 @@ public class Main extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		saveDefaultConfig();
-		File file = new File("spigot.yml");
-		if (file.isFile()) {
-			spigot(file);
-		}
-		EntityEvent g = new EntityEvent(new MetaFactory(this));
+		MetaFactory f = new MetaFactory(this);
+		EntityEvent g = new EntityEvent(f);
 		getServer().getPluginManager().registerEvents(g, this);
-		PlayerEvent f = new PlayerEvent(this);
-		getServer().getPluginManager().registerEvents(f, this);
+		PlayerEvent p = new PlayerEvent(this);
+		getServer().getPluginManager().registerEvents(p, this);
 		getServer().getPluginManager().registerEvents(new AntiCheat(), this);
-		Runnable t = new WorldTask(this);
+		Runnable t = new WorldTask(f);
 		getServer().getScheduler().runTaskTimer(this, t, 3600, 3600);
+		getServer().getScheduler().runTask(this, new Spigot(this));
 		try {
 			new Metrics(this).start();
 		} catch (IOException e) {
 			getLogger().warning("Cant connect to mcstats.org!");
-		}
-	}
-
-	private void spigot(File file) {
-		FileConfiguration sp = YamlConfiguration.loadConfiguration(file);
-		boolean tc = getConfig().getBoolean("manager.spigot.tab-complete");
-		if (sp.isBoolean("commands.tab-complete")) {
-			sp.set("commands.tab-complete", tc);
-		} else {
-			sp.set("commands.tab-complete", tc ? 0 : -1);
-		}
-		int view = getConfig().getInt("manager.spigot.view-distance");
-		if (view < 3 || view > 4) {
-			view = 4;
-			getConfig().set("manager.spigot.view-distance", 4);
-		}
-		sp.set("world-settings.default.view-distance", view);
-		int range = getConfig().getInt("manager.spigot.entity-activation");
-		if (range < 1 || range > 8) {
-			range = 4;
-			getConfig().set("manager.spigot.entity-activation", 4);
-		}
-		sp.set("world-settings.default.entity-activation-range.animals",
-				range * 3);
-		sp.set("world-settings.default.entity-activation-range.monsters",
-				range * 6);
-		sp.set("world-settings.default.entity-activation-range.misc",
-				range * 1);
-		try {
-			sp.save(file);
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 	}
 
