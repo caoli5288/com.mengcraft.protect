@@ -1,16 +1,17 @@
 package com.mengcraft.protect.entity;
 
-import org.bukkit.configuration.Configuration;
+import org.bukkit.Server;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 
-import com.mengcraft.protect.Protect;
+import com.mengcraft.protect.Main;
 
 public class MetaFactory {
 
-	private final Protect p;
+	private final Main p;
 
-	public MetaFactory(Protect protect) {
+	public MetaFactory(Main protect) {
 		this.p = protect;
 	}
 
@@ -18,8 +19,12 @@ public class MetaFactory {
 		return new FixedMetadataValue(p, obj);
 	}
 	
-	public Configuration config() {
-		return p.getConfig();
+	public ConfigurationSection config() {
+		return p.getConfig().getConfigurationSection("manager.entity");
+	}
+	
+	public Server server() {
+		return p.getServer();
 	}
 
 }

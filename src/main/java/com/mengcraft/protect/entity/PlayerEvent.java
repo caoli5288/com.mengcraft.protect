@@ -6,7 +6,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerLoginEvent.Result;
 
-import com.mengcraft.protect.Protect;
+import com.mengcraft.protect.Main;
 
 public class PlayerEvent implements Listener {
 
@@ -33,7 +33,7 @@ public class PlayerEvent implements Listener {
 		}
 	}
 
-	public PlayerEvent(Protect p) {
+	public PlayerEvent(Main p) {
 		this.max = p.getServer().getMaxPlayers();
 	}
 	

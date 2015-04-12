@@ -1,5 +1,7 @@
 package com.mengcraft.protect.task;
 
+import static com.mengcraft.protect.entity.EntityEvent.META_LIFE;
+
 import java.util.List;
 
 import org.bukkit.Chunk;
@@ -8,7 +10,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.metadata.MetadataValue;
 
-import com.mengcraft.protect.Protect;
+import com.mengcraft.protect.Main;
 
 public class WorldTask implements Runnable {
 
@@ -35,16 +37,16 @@ public class WorldTask implements Runnable {
 	}
 
 	private void task(Entity e) {
-		if (e.hasMetadata("protect.lifetime")) {
-			List<MetadataValue> list = e.getMetadata("protect.lifetime");
+		if (e.hasMetadata(META_LIFE)) {
+			List<MetadataValue> list = e.getMetadata(META_LIFE);
 			int life = list.get(0).asInt();
-			if (life > 0 && life > e.getTicksLived()) {
+			if (life > 0 && life < e.getTicksLived()) {
 				e.remove();
 			}
 		}
 	}
 
-	public WorldTask(Protect p) {
+	public WorldTask(Main p) {
 		this.s = p.getServer();
 	}
 

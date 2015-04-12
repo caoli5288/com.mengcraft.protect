@@ -13,29 +13,22 @@ import com.mengcraft.protect.entity.MetaFactory;
 import com.mengcraft.protect.entity.PlayerEvent;
 import com.mengcraft.protect.task.WorldTask;
 
-public class Protect extends JavaPlugin {
+public class Main extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
-		File conf = new File(getDataFolder(), "config.yml");
-		try {
-			getConfig().save(conf);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		// Start modify spigot.yml
+		saveDefaultConfig();
 		File file = new File("spigot.yml");
 		if (file.isFile()) {
 			spigot(file);
 		}
-		// End modify spigot.yml
 		EntityEvent g = new EntityEvent(new MetaFactory(this));
 		getServer().getPluginManager().registerEvents(g, this);
 		PlayerEvent f = new PlayerEvent(this);
 		getServer().getPluginManager().registerEvents(f, this);
 		getServer().getPluginManager().registerEvents(new AntiCheat(), this);
 		Runnable t = new WorldTask(this);
-		getServer().getScheduler().runTaskTimer(this, t, 6000, 6000);
+		getServer().getScheduler().runTaskTimer(this, t, 3600, 3600);
 		try {
 			new Metrics(this).start();
 		} catch (IOException e) {
@@ -77,12 +70,7 @@ public class Protect extends JavaPlugin {
 
 	@Override
 	public void onDisable() {
-		File conf = new File(getDataFolder(), "config.yml");
-		try {
-			getConfig().save(conf);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		saveConfig();
 	}
 
 }

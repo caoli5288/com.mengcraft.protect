@@ -5,9 +5,9 @@ manager:
     spawner:
       chance: 30
     control:
-      sheep:
-        lifetime: -1
+      dropped_item:
+        lifetime: 6000
   spigot:
     view-distance: 4
     entity-activation: 4
-	tab-complete: false
+    tab-complete: false

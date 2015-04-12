@@ -5,11 +5,14 @@ import static org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.SPAWNER;
 import java.util.Random;
 
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Monster;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 
 public class EntityEvent implements Listener {
+
+	public static final String META_LIFE = "protect.lifetime";
 
 	private final Random rand = new Random();
 	private final MetaFactory factory;
@@ -19,29 +22,34 @@ public class EntityEvent implements Listener {
 
 	@EventHandler(ignoreCancelled = true)
 	public void handle(CreatureSpawnEvent event) {
-		if (event.getSpawnReason() == SPAWNER && rand.nextInt(100) < spawn) {
+		Entity entity = event.getEntity();
+		if (event.getSpawnReason() == SPAWNER && rand.nextInt(100) < spawn
+				|| entity.getWorld().getEntities().size() > world
+				|| entity.getNearbyEntities(8, 8, 8).size() > chunk) {
 			event.setCancelled(true);
-		} else if (event.getEntity().getWorld().getEntities().size() > world) {
-			event.setCancelled(true);
-		} else if (event.getEntity().getNearbyEntities(8, 8, 8).size() > chunk) {
-			event.setCancelled(true);
-		} else if (!event.getEntity().hasMetadata("protect.lifetime")) {
-			Entity entity = event.getEntity();
-			String type = entity.getType().name().toLowerCase();
-			int life = factory.config().getInt("manager.entity.control."
-					+ type + ".lifetime", -999);
-			if (life == -999) {
-				factory.config().set("manager.entity.control." + type + ".lifetime", -1);
-			}
-			entity.setMetadata("protect.lifetime", factory.create(life));
+		} else {
+			lifetime(entity);
+		}
+	}
+
+	public void lifetime(Entity entity) {
+		String type = entity.getType().name().toLowerCase();
+		int life = factory.config().getInt("control."
+				+ type + ".lifetime", -1);
+		if (life < 0) {
+			life = entity instanceof Monster ? 12000 : 0;
+			factory.config().set("control." + type + ".lifetime", life);
+		}
+		if (life > 0) {
+			entity.setMetadata(META_LIFE, factory.create(life));
 		}
 	}
 
 	public EntityEvent(MetaFactory factory) {
-		world = 1500;
-		chunk = 16;
-		spawn = 30;
 		this.factory = factory;
+		world = factory.config().getInt("limit-world");
+		chunk = factory.config().getInt("limit-chunk");
+		spawn = factory.config().getInt("spawner.chance");
 	}
 
 }
