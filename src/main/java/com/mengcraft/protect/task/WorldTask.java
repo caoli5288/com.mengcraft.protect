@@ -6,7 +6,6 @@ import java.util.Map;
 import org.bukkit.Chunk;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
 
 import com.mengcraft.protect.entity.MetaFactory;
@@ -27,23 +26,21 @@ public class WorldTask implements Runnable {
 		for (Chunk c : w.getLoadedChunks()) {
 			task(c);
 		}
+		for (Entity e : w.getLivingEntities()) {
+			task(e);
+		}
 	}
 
 	private void task(Chunk c) {
-		for (Entity e : c.getEntities()) {
-			task(e);
-		}
 		c.unload(true, true);
 	}
 
 	private void task(Entity e) {
-		if (e instanceof LivingEntity) {
-			String type = e.getType().name();
-			if (map.get(type) != null) {
-				check(map.get(type), e);
-			} else {
-				cache(e);
-			}
+		String type = e.getType().name();
+		if (map.get(type) != null) {
+			check(map.get(type), e);
+		} else {
+			cache(e);
 		}
 	}
 
@@ -66,7 +63,6 @@ public class WorldTask implements Runnable {
 	private void check(int limit, Entity e) {
 		if (limit > 0 && e.getTicksLived() > limit) {
 			e.remove();
-			System.out.println("WorldTask: Remove a " + e.getType() + " because of " + e.getTicksLived() + " lived.");
 		}
 	}
 

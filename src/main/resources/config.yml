@@ -1,4 +1,10 @@
 manager:
+  redstone:
+    limit-freq: 35
+    white-list:
+    - 63
+    - 68
+    replace: false;
   entity:
     limit-world: 2500
     limit-chunk: 16

@@ -8,11 +8,11 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.mengcraft.protect.Main;
 
-public class Spigot implements Runnable {
+public class SpigotTask implements Runnable {
 
 	private final FileConfiguration config;
 
-	public Spigot(Main main) {
+	public SpigotTask(Main main) {
 		this.config = main.getConfig();
 	}
 
