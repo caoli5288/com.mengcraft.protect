@@ -17,3 +17,6 @@ manager:
     view-distance: 4
     entity-activation: 4
     tab-complete: false
+  restart:
+    daily: 24
+    limit: 5
