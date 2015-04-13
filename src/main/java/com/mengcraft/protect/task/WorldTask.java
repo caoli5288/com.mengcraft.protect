@@ -3,7 +3,6 @@ package com.mengcraft.protect.task;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.bukkit.Chunk;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Monster;
@@ -23,16 +22,9 @@ public class WorldTask implements Runnable {
 	}
 
 	private void task(World w) {
-		for (Chunk c : w.getLoadedChunks()) {
-			task(c);
-		}
 		for (Entity e : w.getLivingEntities()) {
 			task(e);
 		}
-	}
-
-	private void task(Chunk c) {
-		c.unload(true, true);
 	}
 
 	private void task(Entity e) {

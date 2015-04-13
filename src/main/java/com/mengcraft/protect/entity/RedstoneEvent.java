@@ -1,4 +1,4 @@
-package com.mengcraft.protect.task;
+package com.mengcraft.protect.entity;
 
 import java.util.HashMap;
 import java.util.List;
@@ -11,7 +11,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockRedstoneEvent;
 
-public class RedstoneTask implements Runnable, Listener {
+public class RedstoneEvent implements Runnable, Listener {
 
 	private final List<Integer> list;
 	private final Map<Block, Integer> cache;
@@ -53,14 +53,14 @@ public class RedstoneTask implements Runnable, Listener {
 		}
 	}
 
-	public RedstoneTask(List<Integer> list, int limit, boolean replace) {
+	public RedstoneEvent(List<Integer> list, int limit, boolean replace) {
 		this.list = list;
 		this.cache = new HashMap<Block, Integer>();
 		this.limit = limit;
 		this.replace = replace;
 	}
 
-	public RedstoneTask(Configuration conf) {
+	public RedstoneEvent(Configuration conf) {
 		this.list = conf.getIntegerList("manager.redstone.white-list");
 		this.cache = new HashMap<Block, Integer>();
 		this.limit = conf.getInt("manager.redstone.limit-freq", 35);

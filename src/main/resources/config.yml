@@ -1,10 +1,14 @@
 manager:
+  chunk:
+    auto-unload: true
+    limit-total: 6500
+    purge-on-unload:
   redstone:
     limit-freq: 35
     white-list:
     - 63
     - 68
-    replace: false;
+    replace: false
   entity:
     limit-world: 2500
     limit-chunk: 16
