@@ -3,6 +3,7 @@ package com.mengcraft.protect.entity;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -20,19 +21,18 @@ public class RedstoneEvent implements Runnable, Listener {
 
 	@Override
 	public void run() {
-		for (Block b : cache.keySet()) {
-			check(b);
+		for (Entry<Block, Integer> e : cache.entrySet()) {
+			check(e);
 		}
 		cache.clear();
 	}
 
-	private void check(Block b) {
-		System.out.println("DEBUG: " + b.getType() + " " + cache.get(b));
-		if (cache.get(b) > limit) {
+	private void check(Entry<Block, Integer> e) {
+		if (e.getValue() > limit) {
 			if (replace) {
-				b.setType(Material.AIR);
+				e.getKey().setType(Material.AIR);
 			} else {
-				b.breakNaturally();
+				e.getKey().breakNaturally();
 			}
 		}
 	}
@@ -51,13 +51,6 @@ public class RedstoneEvent implements Runnable, Listener {
 		} else {
 			cache.put(block, 1);
 		}
-	}
-
-	public RedstoneEvent(List<Integer> list, int limit, boolean replace) {
-		this.list = list;
-		this.cache = new HashMap<Block, Integer>();
-		this.limit = limit;
-		this.replace = replace;
 	}
 
 	public RedstoneEvent(Configuration conf) {
