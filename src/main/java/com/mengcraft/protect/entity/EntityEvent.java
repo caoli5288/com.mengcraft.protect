@@ -15,6 +15,7 @@ public class EntityEvent implements Listener {
 	private final int world;
 	private final int chunk;
 	private final int spawn;
+	private final MetaFactory factory;
 
 	@EventHandler(ignoreCancelled = true)
 	public void handle(CreatureSpawnEvent event) {
@@ -26,10 +27,11 @@ public class EntityEvent implements Listener {
 		}
 	}
 
-	public EntityEvent(MetaFactory factory) {
-		world = factory.config().getInt("limit-world");
-		chunk = factory.config().getInt("limit-chunk");
-		spawn = factory.config().getInt("spawner.chance");
+	public EntityEvent(MetaFactory f) {
+		world = f.config().getInt("limit-world");
+		chunk = f.config().getInt("limit-chunk");
+		spawn = f.config().getInt("spawner.chance");
+		factory = f;
 	}
 
 }

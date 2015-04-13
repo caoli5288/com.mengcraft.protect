@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mcstats.Metrics;
 
+import com.mengcraft.protect.entity.ChunkEvent;
 import com.mengcraft.protect.entity.EntityEvent;
 import com.mengcraft.protect.entity.MetaFactory;
 import com.mengcraft.protect.entity.PlayerEvent;
@@ -37,7 +38,8 @@ public class Main extends JavaPlugin {
 		}
 		u = u * 72000;
 		getServer().getScheduler().runTaskTimer(this, s, u, 1200);
-
+		ChunkEvent q = new ChunkEvent(this);
+		getServer().getPluginManager().registerEvents(q, this);
 		try {
 			new Metrics(this).start();
 		} catch (IOException e) {
