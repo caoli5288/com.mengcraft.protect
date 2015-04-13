@@ -2,6 +2,7 @@ package com.mengcraft.protect;
 
 import java.io.IOException;
 
+import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mcstats.Metrics;
 
@@ -45,7 +46,12 @@ public class Main extends JavaPlugin {
 		} catch (IOException e) {
 			getLogger().warning("Cant connect to mcstats.org!");
 		}
-		getLogger().info("梦梦家服务器专用插件");
+		String[] strings = {
+				ChatColor.GREEN + "梦梦家高性能服务器出租店",
+				ChatColor.GREEN + "shop105595113.taobao.com"
+		};
+		getServer().getConsoleSender().sendMessage(strings);
+		getLogger().info("Enabled Protect done!");
 	}
 
 	@Override
