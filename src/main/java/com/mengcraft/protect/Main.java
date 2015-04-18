@@ -3,6 +3,7 @@ package com.mengcraft.protect;
 import java.io.IOException;
 
 import org.bukkit.ChatColor;
+import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mcstats.Metrics;
 
@@ -56,6 +57,10 @@ public class Main extends JavaPlugin {
 
 	@Override
 	public void onDisable() {
+		getServer().savePlayers();
+		for (World w : getServer().getWorlds()) {
+			w.save();
+		}
 		saveConfig();
 	}
 
