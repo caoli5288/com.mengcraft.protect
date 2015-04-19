@@ -36,5 +36,5 @@ public class PlayerEvent implements Listener {
 	public PlayerEvent(Main p) {
 		this.max = p.getServer().getMaxPlayers();
 	}
-	
+
 }
