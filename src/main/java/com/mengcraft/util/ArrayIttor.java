@@ -19,7 +19,7 @@ public class ArrayIttor<E> implements Iterator<E> {
 	
 	@Override
 	public void remove() {
-		Iterator.super.remove();
+		throw new UnsupportedOperationException("remove");
 	}
 
 	public int remain() {
