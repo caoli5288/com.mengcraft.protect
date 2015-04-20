@@ -9,6 +9,10 @@ manager:
     - 63
     - 68
     replace: false
+  player:
+    limit-addr: 2
+  	white-list:
+  	- '127.0.0.1'
   entity:
     limit-world: 2500
     limit-chunk: 16
