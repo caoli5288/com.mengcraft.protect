@@ -16,6 +16,11 @@ public class ArrayIttor<E> implements Iterator<E> {
 	public E next() {
 		return hasNext() ? array[cursor++] : null;
 	}
+	
+	@Override
+	public void remove() {
+		Iterator.super.remove();
+	}
 
 	public int remain() {
 		return array.length - cursor;
