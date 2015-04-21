@@ -30,7 +30,7 @@ public class PlayerEvent implements Listener {
 
 	@EventHandler
 	public void handle(PlayerQuitEvent e) {
-		map.remove(e.getPlayer().getAddress().getHostString());
+		map.remove(getHostAddress(e.getPlayer()));
 	}
 
 	@EventHandler
