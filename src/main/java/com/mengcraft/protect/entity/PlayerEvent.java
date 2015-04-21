@@ -25,8 +25,8 @@ public class PlayerEvent implements Listener {
 	private final int max;
 
 	private static final String PERM_FULL = "essentials.joinfullserver";
-	private static final String KICK_FULL = "您被特权玩家挤下线了";
-	private static final String KICK_ADDR = "您的网络地址已经在线";
+	private static final String KICK_FULL = "您被拥有满人进服特权的玩家挤下线了";
+	private static final String KICK_ADDR = "您的网络地址的在线数目已经达到上限";
 
 	@EventHandler
 	public void handle(PlayerQuitEvent e) {
@@ -36,8 +36,7 @@ public class PlayerEvent implements Listener {
 	@EventHandler
 	public void handle(PlayerLoginEvent e) {
 		if (e.getResult() == Result.ALLOWED) {
-			Player player = e.getPlayer();
-			String host = player.getAddress().getHostString();
+			String host = e.getAddress().getHostAddress();
 			if (list.contains(host)) {
 				e.setResult(Result.ALLOWED);
 			} else if (check(host) >= limit) {
@@ -48,14 +47,17 @@ public class PlayerEvent implements Listener {
 
 	@EventHandler
 	public void handle(PlayerJoinEvent e) {
-		Player p = e.getPlayer();
-		String s = p.getAddress().getHostString();
+		String s = getHostAddress(e.getPlayer());
 		if (map.get(s) != null) {
 			map.put(s, map.get(s) + 1);
 		}
 		while (onlines() > max) {
 			select().kickPlayer(KICK_FULL);
 		}
+	}
+
+	private String getHostAddress(Player p) {
+		return p.getAddress().getAddress().getHostAddress();
 	}
 
 	private Player select() {
