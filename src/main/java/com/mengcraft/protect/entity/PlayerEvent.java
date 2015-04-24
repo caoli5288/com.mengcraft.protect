@@ -30,7 +30,13 @@ public class PlayerEvent implements Listener {
 
 	@EventHandler
 	public void handle(PlayerQuitEvent e) {
-		map.remove(getHostAddress(e.getPlayer()));
+		String host = getHostAddress(e.getPlayer());
+		int count = map.get(host);
+		if (count > 1) {
+			map.put(host, count - 1);
+		} else {
+			map.remove(host);
+		}
 	}
 
 	@EventHandler
@@ -40,7 +46,7 @@ public class PlayerEvent implements Listener {
 			if (list.contains(host)) {
 				e.setResult(Result.ALLOWED);
 			} else if (check(host) >= limit) {
-				e.disallow(Result.KICK_BANNED, KICK_ADDR);
+				e.setResult(Result.KICK_FULL);
 			}
 		}
 	}
@@ -48,10 +54,11 @@ public class PlayerEvent implements Listener {
 	@EventHandler
 	public void handle(PlayerJoinEvent e) {
 		String host = getHostAddress(e.getPlayer());
-		if (map.get(host) != null) {
-			map.put(host, map.get(host) + 1);
+		int count = check(host) + 1;
+		if (count > limit) {
+			e.getPlayer().kickPlayer(KICK_ADDR);
 		} else {
-			map.put(host, 1);
+			map.put(host, count);
 		}
 		while (onlines() > max) {
 			select().kickPlayer(KICK_FULL);
