@@ -47,9 +47,11 @@ public class PlayerEvent implements Listener {
 
 	@EventHandler
 	public void handle(PlayerJoinEvent e) {
-		String s = getHostAddress(e.getPlayer());
-		if (map.get(s) != null) {
-			map.put(s, map.get(s) + 1);
+		String host = getHostAddress(e.getPlayer());
+		if (map.get(host) != null) {
+			map.put(host, map.get(host) + 1);
+		} else {
+			map.put(host, 1);
 		}
 		while (onlines() > max) {
 			select().kickPlayer(KICK_FULL);
