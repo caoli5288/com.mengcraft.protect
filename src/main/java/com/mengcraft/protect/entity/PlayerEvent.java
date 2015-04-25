@@ -8,9 +8,9 @@ import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
+import org.bukkit.event.player.AsyncPlayerPreLoginEvent.Result;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerLoginEvent;
-import org.bukkit.event.player.PlayerLoginEvent.Result;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import com.mengcraft.protect.Main;
@@ -40,13 +40,13 @@ public class PlayerEvent implements Listener {
 	}
 
 	@EventHandler
-	public void handle(PlayerLoginEvent e) {
-		if (e.getResult() == Result.ALLOWED) {
+	public void handle(AsyncPlayerPreLoginEvent e) {
+		if (e.getLoginResult() == Result.ALLOWED) {
 			String host = e.getAddress().getHostAddress();
 			if (list.contains(host)) {
-				e.setResult(Result.ALLOWED);
+				e.setLoginResult(Result.ALLOWED);
 			} else if (check(host) >= limit) {
-				e.setResult(Result.KICK_FULL);
+				e.setLoginResult(Result.KICK_FULL);
 			}
 		}
 	}
@@ -96,7 +96,12 @@ public class PlayerEvent implements Listener {
 		this.main = p.getServer();
 		this.map = new HashMap<String, Integer>();
 		this.list = p.getConfig().getStringList("manager.player.white-list");
-		this.limit = p.getConfig().getInt("manager.player.limit-addr", 2);
+		int limit = p.getConfig().getInt("manager.player.limit-addr", 2);
+		if (limit < 1) {
+			limit = 2;
+			p.getConfig().set("manager.player.limit-addr", limit);
+		}
+		this.limit = limit;
 		this.max = p.getServer().getMaxPlayers();
 	}
 
