@@ -20,9 +20,10 @@ public class PlayerEvent implements Listener {
 
 	private final int limit;
 	private final Map<String, Integer> map;
-	private final Server main;
+	private final Server server;
 	private final List<String> list;
 	private final int max;
+	private final Main main;
 
 	private static final String PERM_FULL = "essentials.joinfullserver";
 	private static final String KICK_FULL = "您被拥有满人进服特权的玩家挤下线了";
@@ -54,24 +55,24 @@ public class PlayerEvent implements Listener {
 	@EventHandler
 	public void handle(PlayerJoinEvent e) {
 		String host = getHostAddress(e.getPlayer());
-		int count = check(host) + 1;
-		if (count > limit) {
-			// Double check if login event is lag
-			e.getPlayer().kickPlayer(KICK_ADDR);
+		if (list.contains(host)) {
+			// In white-list, do nothings.
+		} else if (check(host) < limit) {
+			map.put(host, check(host) + 1);
 		} else {
-			map.put(host, count);
+			server.getScheduler().runTask(main, new KickTask(e));
 		}
 		while (onlines() > max) {
 			select().kickPlayer(KICK_FULL);
 		}
 	}
-
+	
 	private String getHostAddress(Player p) {
 		return p.getAddress().getAddress().getHostAddress();
 	}
 
 	private Player select() {
-		Player[] array = main.getOnlinePlayers();
+		Player[] array = server.getOnlinePlayers();
 		ArrayIttor<Player> it = new ArrayIttor<Player>(array);
 		while (it.remain() > 1) {
 			Player p = it.next();
@@ -83,7 +84,7 @@ public class PlayerEvent implements Listener {
 	}
 
 	private int onlines() {
-		return main.getOnlinePlayers().length;
+		return server.getOnlinePlayers().length;
 	}
 
 	private int check(String host) {
@@ -91,7 +92,8 @@ public class PlayerEvent implements Listener {
 	}
 
 	public PlayerEvent(Main p) {
-		this.main = p.getServer();
+		this.server = p.getServer();
+		this.main = p;
 		this.map = new HashMap<String, Integer>();
 		this.list = p.getConfig().getStringList("manager.player.white-list");
 		int limit = p.getConfig().getInt("manager.player.limit-addr", 2);
@@ -101,6 +103,21 @@ public class PlayerEvent implements Listener {
 		}
 		this.limit = limit;
 		this.max = p.getServer().getMaxPlayers();
+	}
+
+	private class KickTask implements Runnable {
+		
+		private Player p;
+	
+		@Override
+		public void run() {
+			p.kickPlayer(KICK_ADDR);
+		}
+		
+		public KickTask(PlayerJoinEvent e) {
+			this.p = e.getPlayer();
+		}
+		
 	}
 
 }
