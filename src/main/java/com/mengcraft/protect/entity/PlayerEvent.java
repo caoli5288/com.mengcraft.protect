@@ -31,10 +31,10 @@ public class PlayerEvent implements Listener {
 	@EventHandler
 	public void handle(PlayerQuitEvent e) {
 		String host = getHostAddress(e.getPlayer());
-		int count = map.get(host);
+		int count = check(host);
 		if (count > 1) {
 			map.put(host, count - 1);
-		} else {
+		} else if (count > 0) {
 			map.remove(host);
 		}
 	}
@@ -56,6 +56,7 @@ public class PlayerEvent implements Listener {
 		String host = getHostAddress(e.getPlayer());
 		int count = check(host) + 1;
 		if (count > limit) {
+			// Double check if login event is lag
 			e.getPlayer().kickPlayer(KICK_ADDR);
 		} else {
 			map.put(host, count);
@@ -86,10 +87,7 @@ public class PlayerEvent implements Listener {
 	}
 
 	private int check(String host) {
-		if (map.get(host) != null) {
-			return map.get(host);
-		}
-		return 0;
+		return map.get(host) != null ? map.get(host) : 0;
 	}
 
 	public PlayerEvent(Main p) {
