@@ -7,11 +7,11 @@ import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Monster;
 
-import com.mengcraft.protect.entity.MetaFactory;
+import com.mengcraft.protect.DataCompond;
 
 public class WorldTask implements Runnable {
 
-	private final MetaFactory f;
+	private final DataCompond f;
 	private final Map<String, Integer> map;
 
 	@Override
@@ -58,7 +58,7 @@ public class WorldTask implements Runnable {
 		}
 	}
 
-	public WorldTask(MetaFactory f) {
+	public WorldTask(DataCompond f) {
 		this.f = f;
 		this.map = new HashMap<String, Integer>();
 	}

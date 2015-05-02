@@ -9,13 +9,15 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 
+import com.mengcraft.protect.DataCompond;
+
 public class EntityEvent implements Listener {
 
 	private final Random rand = new Random();
 	private final int world;
 	private final int chunk;
 	private final int spawn;
-	private final MetaFactory factory;
+	private final DataCompond factory;
 
 	@EventHandler(ignoreCancelled = true)
 	public void handle(CreatureSpawnEvent event) {
@@ -27,7 +29,7 @@ public class EntityEvent implements Listener {
 		}
 	}
 
-	public EntityEvent(MetaFactory f) {
+	public EntityEvent(DataCompond f) {
 		world = f.config().getInt("limit-world");
 		chunk = f.config().getInt("limit-chunk");
 		spawn = f.config().getInt("spawner.chance");

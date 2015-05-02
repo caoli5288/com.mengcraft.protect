@@ -7,9 +7,9 @@ import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mcstats.Metrics;
 
+import com.mengcraft.protect.debug.Executor;
 import com.mengcraft.protect.entity.ChunkEvent;
 import com.mengcraft.protect.entity.EntityEvent;
-import com.mengcraft.protect.entity.MetaFactory;
 import com.mengcraft.protect.entity.PlayerEvent;
 import com.mengcraft.protect.entity.RedstoneEvent;
 import com.mengcraft.protect.task.RestartTask;
@@ -22,7 +22,7 @@ public class Main extends JavaPlugin {
 	public void onEnable() {
 		saveDefaultConfig();
 		getServer().getScheduler().runTask(this, new SpigotTask(this));
-		MetaFactory f = new MetaFactory(this);
+		DataCompond f = new DataCompond(this);
 		EntityEvent g = new EntityEvent(f);
 		getServer().getPluginManager().registerEvents(g, this);
 		PlayerEvent p = new PlayerEvent(this);
@@ -42,6 +42,7 @@ public class Main extends JavaPlugin {
 		getServer().getScheduler().runTaskTimer(this, s, u, 1200);
 		ChunkEvent q = new ChunkEvent(this);
 		getServer().getPluginManager().registerEvents(q, this);
+		getCommand("protect").setExecutor(new Executor(f));
 		try {
 			new Metrics(this).start();
 		} catch (IOException e) {

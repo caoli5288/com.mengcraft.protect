@@ -1,17 +1,15 @@
-package com.mengcraft.protect.entity;
+package com.mengcraft.protect;
 
 import org.bukkit.Server;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 
-import com.mengcraft.protect.Main;
-
-public class MetaFactory {
+public class DataCompond {
 
 	private final Main p;
 
-	public MetaFactory(Main protect) {
+	public DataCompond(Main protect) {
 		this.p = protect;
 	}
 

@@ -16,14 +16,25 @@ public class ArrayIttor<E> implements Iterator<E> {
 	public E next() {
 		return hasNext() ? array[cursor++] : null;
 	}
-	
+
 	@Override
 	public void remove() {
-		throw new UnsupportedOperationException("remove");
+		throw new UnsupportedOperationException();
+	}
+
+	public E get(int index) {
+		if (index < 00 || index >= array.length) {
+			throw new IndexOutOfBoundsException();
+		}
+		return array[index];
 	}
 
 	public int remain() {
 		return array.length - cursor;
+	}
+
+	public int cursor() {
+		return cursor;
 	}
 
 	public ArrayIttor(E... array) {
