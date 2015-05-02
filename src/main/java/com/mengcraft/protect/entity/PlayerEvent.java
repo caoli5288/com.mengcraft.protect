@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,17 +12,16 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent.Result;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import com.mengcraft.protect.Main;
+import com.mengcraft.protect.DataCompond;
 import com.mengcraft.util.ArrayIttor;
 
 public class PlayerEvent implements Listener {
 
 	private final int limit;
 	private final Map<String, Integer> map;
-	private final Server server;
 	private final List<String> list;
 	private final int max;
-	private final Main main;
+	private final DataCompond compond;
 
 	private static final String PERM_FULL = "essentials.joinfullserver";
 	private static final String KICK_FULL = "您被拥有满人进服特权的玩家挤下线了";
@@ -60,7 +58,7 @@ public class PlayerEvent implements Listener {
 		} else if (check(host) < limit) {
 			map.put(host, check(host) + 1);
 		} else {
-			server.getScheduler().runTask(main, new KickTask(e));
+			compond.scheduler().runTask(compond.main(), new KickTask(e));
 		}
 		while (onlines() > max) {
 			select().kickPlayer(KICK_FULL);
@@ -72,7 +70,7 @@ public class PlayerEvent implements Listener {
 	}
 
 	private Player select() {
-		Player[] array = server.getOnlinePlayers();
+		Player[] array = compond.onlines();
 		ArrayIttor<Player> it = new ArrayIttor<Player>(array);
 		while (it.remain() > 1) {
 			Player p = it.next();
@@ -84,25 +82,24 @@ public class PlayerEvent implements Listener {
 	}
 
 	private int onlines() {
-		return server.getOnlinePlayers().length;
+		return compond.onlines().length;
 	}
 
 	private int check(String host) {
 		return map.get(host) != null ? map.get(host) : 0;
 	}
 
-	public PlayerEvent(Main p) {
-		this.server = p.getServer();
-		this.main = p;
+	public PlayerEvent(DataCompond compond) {
 		this.map = new HashMap<String, Integer>();
-		this.list = p.getConfig().getStringList("manager.player.white-list");
-		int limit = p.getConfig().getInt("manager.player.limit-addr", 2);
+		this.list = compond.config().getStringList("player.white-list");
+		int limit = compond.config().getInt("player.limit-addr", 2);
 		if (limit < 1) {
 			limit = 2;
-			p.getConfig().set("manager.player.limit-addr", limit);
+			compond.config().set("player.limit-addr", limit);
 		}
 		this.limit = limit;
-		this.max = p.getServer().getMaxPlayers();
+		this.max = compond.server().getMaxPlayers();
+		this.compond = compond;
 	}
 
 	private class KickTask implements Runnable {

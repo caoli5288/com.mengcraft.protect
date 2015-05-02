@@ -17,7 +17,7 @@ public class EntityEvent implements Listener {
 	private final int world;
 	private final int chunk;
 	private final int spawn;
-	private final DataCompond factory;
+	private final DataCompond compond;
 
 	@EventHandler(ignoreCancelled = true)
 	public void handle(CreatureSpawnEvent event) {
@@ -29,11 +29,11 @@ public class EntityEvent implements Listener {
 		}
 	}
 
-	public EntityEvent(DataCompond f) {
-		world = f.config().getInt("limit-world");
-		chunk = f.config().getInt("limit-chunk");
-		spawn = f.config().getInt("spawner.chance");
-		factory = f;
+	public EntityEvent(DataCompond compong) {
+		world = compong.config().getInt("entity.limit-world");
+		chunk = compong.config().getInt("entity.limit-chunk");
+		spawn = compong.config().getInt("entity.spawner.chance");
+		compond = compong;
 	}
 
 }

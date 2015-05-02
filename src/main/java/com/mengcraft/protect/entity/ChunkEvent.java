@@ -13,19 +13,19 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.ChunkLoadEvent;
 
-import com.mengcraft.protect.Main;
+import com.mengcraft.protect.DataCompond;
 
 public class ChunkEvent implements Listener {
 
 	private final Set<String> set = new HashSet<String>();
 	private final Queue<Chunk> chunks = new LinkedBlockingDeque<Chunk>();
-	private boolean b;
+	private boolean unload;
 	private final int limit;
 
 	@EventHandler
 	public void handle(ChunkLoadEvent event) {
 		Chunk c = event.getChunk();
-		if (b) {
+		if (unload) {
 			check(c);
 		}
 		for (Entity e : c.getEntities()) {
@@ -44,7 +44,7 @@ public class ChunkEvent implements Listener {
 			if (d.isLoaded() && !d.unload(true, true)) {
 				chunks.offer(d);
 			} else if (d.isLoaded()) {
-				b = false;
+				unload = false;
 			} 
 		}
 		chunks.offer(c);
@@ -57,19 +57,19 @@ public class ChunkEvent implements Listener {
 		}
 	}
 
-	public ChunkEvent(Main main) {
-		String path = "manager.chunk.purge-on-unload";
-		List<String> list = main.getConfig().getStringList(path);
+	public ChunkEvent(DataCompond compond) {
+		String path = "chunk.purge-on-unload";
+		List<String> list = compond.config().getStringList(path);
 		for (String line : list) {
 			set.add(line.toLowerCase());
 		}
-		main.getConfig().set(path, new ArrayList<String>(set));
-		b = main.getConfig().getBoolean("manager.chunk.auto-unload");
-		String s = "manager.chunk.limit-total";
-		int i = main.getConfig().getInt(s);
+		compond.config().set(path, new ArrayList<String>(set));
+		unload = compond.config().getBoolean("chunk.auto-unload");
+		String s = "chunk.limit-total";
+		int i = compond.config().getInt(s);
 		if (i < 1500 || i > 10500) {
 			i = 6500;
-			main.getConfig().set(s, i);
+			compond.config().set(s, i);
 		}
 		limit = i;
 	}
