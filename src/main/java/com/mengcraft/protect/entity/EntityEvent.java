@@ -22,7 +22,7 @@ public class EntityEvent implements Listener {
 	@EventHandler(ignoreCancelled = true)
 	public void handle(CreatureSpawnEvent event) {
 		Entity entity = event.getEntity();
-		if (event.getSpawnReason() == SPAWNER && rand.nextInt(100) < spawn
+		if ((event.getSpawnReason() == SPAWNER && rand.nextInt(100) < spawn)
 				|| entity.getWorld().getEntities().size() > world
 				|| entity.getNearbyEntities(8, 8, 8).size() > chunk) {
 			event.setCancelled(true);
