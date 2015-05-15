@@ -1,6 +1,6 @@
 name: Protect
 main: com.mengcraft.protect.Main
-version: 2.2.1
+version: 2.2.2
 
 commands:
   protect:
