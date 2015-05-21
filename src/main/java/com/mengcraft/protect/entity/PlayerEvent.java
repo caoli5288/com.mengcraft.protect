@@ -1,5 +1,8 @@
 package com.mengcraft.protect.entity;
 
+import static org.bukkit.event.player.PlayerLoginEvent.Result.ALLOWED;
+import static org.bukkit.event.player.PlayerLoginEvent.Result.KICK_FULL;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +13,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent.Result;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import com.mengcraft.protect.DataCompound;
@@ -24,8 +28,8 @@ public class PlayerEvent implements Listener {
 	private final DataCompound compond;
 
 	private static final String PERM_FULL = "essentials.joinfullserver";
-	private static final String KICK_FULL = "您被拥有满人进服特权的玩家挤下线了";
-	private static final String KICK_ADDR = "您的网络地址的在线数目已经达到上限";
+	private static final String MESS_FULL = "您被拥有满人进服特权的玩家挤下线了";
+	private static final String MESS_ADDR = "您的网络地址的在线数目已经达到上限";
 
 	@EventHandler
 	public void handle(PlayerQuitEvent e) {
@@ -43,11 +47,25 @@ public class PlayerEvent implements Listener {
 		if (e.getLoginResult() == Result.ALLOWED) {
 			String host = e.getAddress().getHostAddress();
 			if (list.contains(host)) {
+			    // Allowed in white-list address.
 				e.setLoginResult(Result.ALLOWED);
 			} else if (check(host) >= limit) {
 				e.setLoginResult(Result.KICK_FULL);
 			}
 		}
+	}
+	
+	@EventHandler
+	public void handle(PlayerLoginEvent e) {
+	    if (e.getResult() == ALLOWED) {
+	        String host = e.getAddress().getHostAddress();
+            if (list.contains(host)) {
+                // Allowed in white-list address.
+                e.setResult(ALLOWED);
+            } else if (check(host) >= limit) {
+                e.setResult(KICK_FULL);
+            }
+	    }
 	}
 
 	@EventHandler
@@ -61,7 +79,7 @@ public class PlayerEvent implements Listener {
 			compond.scheduler().runTask(compond.main(), new KickTask(e));
 		}
 		while (onlines() > max) {
-			select().kickPlayer(KICK_FULL);
+			select().kickPlayer(MESS_FULL);
 		}
 	}
 	
@@ -108,7 +126,7 @@ public class PlayerEvent implements Listener {
 	
 		@Override
 		public void run() {
-			p.kickPlayer(KICK_ADDR);
+			p.kickPlayer(MESS_ADDR);
 		}
 		
 		public KickTask(PlayerJoinEvent e) {
