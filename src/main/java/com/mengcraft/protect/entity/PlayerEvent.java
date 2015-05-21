@@ -12,7 +12,7 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent.Result;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import com.mengcraft.protect.DataCompond;
+import com.mengcraft.protect.DataCompound;
 import com.mengcraft.util.ArrayIttor;
 
 public class PlayerEvent implements Listener {
@@ -21,7 +21,7 @@ public class PlayerEvent implements Listener {
 	private final Map<String, Integer> map;
 	private final List<String> list;
 	private final int max;
-	private final DataCompond compond;
+	private final DataCompound compond;
 
 	private static final String PERM_FULL = "essentials.joinfullserver";
 	private static final String KICK_FULL = "您被拥有满人进服特权的玩家挤下线了";
@@ -89,7 +89,7 @@ public class PlayerEvent implements Listener {
 		return map.get(host) != null ? map.get(host) : 0;
 	}
 
-	public PlayerEvent(DataCompond compond) {
+	public PlayerEvent(DataCompound compond) {
 		this.map = new HashMap<String, Integer>();
 		this.list = compond.config().getStringList("player.white-list");
 		int limit = compond.config().getInt("player.limit-addr", 2);

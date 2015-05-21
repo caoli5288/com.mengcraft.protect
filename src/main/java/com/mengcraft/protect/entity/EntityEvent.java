@@ -9,7 +9,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 
-import com.mengcraft.protect.DataCompond;
+import com.mengcraft.protect.DataCompound;
 
 public class EntityEvent implements Listener {
 
@@ -17,7 +17,7 @@ public class EntityEvent implements Listener {
 	private final int world;
 	private final int chunk;
 	private final int spawn;
-	private final DataCompond compond;
+	private final DataCompound compond;
 
 	@EventHandler(ignoreCancelled = true)
 	public void handle(CreatureSpawnEvent event) {
@@ -29,7 +29,7 @@ public class EntityEvent implements Listener {
 		}
 	}
 
-	public EntityEvent(DataCompond compong) {
+	public EntityEvent(DataCompound compong) {
 		world = compong.config().getInt("entity.limit-world");
 		chunk = compong.config().getInt("entity.limit-chunk");
 		spawn = compong.config().getInt("entity.spawner.chance");

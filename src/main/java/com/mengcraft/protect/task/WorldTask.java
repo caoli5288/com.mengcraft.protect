@@ -8,11 +8,11 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 
-import com.mengcraft.protect.DataCompond;
+import com.mengcraft.protect.DataCompound;
 
 public class WorldTask implements Runnable {
 
-    private final DataCompond compond;
+    private final DataCompound compond;
     private final Map<String, Integer> map;
 
     @Override
@@ -58,7 +58,7 @@ public class WorldTask implements Runnable {
         }
     }
 
-    public WorldTask(DataCompond f) {
+    public WorldTask(DataCompound f) {
         this.compond = f;
         this.map = new HashMap<String, Integer>();
     }

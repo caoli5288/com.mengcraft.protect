@@ -1,14 +1,12 @@
-Protect
-======
-
-特性列表
-------
-- 实体管理
-- 区块管理
-- 自动配置
-
-实体管理
-------
-- 生命周期
-- 总数控制
-- 密集控制
+# Protect
+## Usage
+- "/protect entity"
+    - Will show information about entities.
+- "/protect chunk" 
+    - Will show information about chunks.
+- "/protect chunk unload" 
+    - Will try to unload all unneeded chunks.
+    - May not work on a Cauldron or MCPC server.
+- "/protect chunk clean world,0,0" 
+    - Will try to rebuild specific chunk.
+    - Can be used to fix some block issues.

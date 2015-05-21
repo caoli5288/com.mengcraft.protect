@@ -13,7 +13,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.ChunkLoadEvent;
 
-import com.mengcraft.protect.DataCompond;
+import com.mengcraft.protect.DataCompound;
 
 public class ChunkEvent implements Listener {
 
@@ -57,7 +57,7 @@ public class ChunkEvent implements Listener {
 		}
 	}
 
-	public ChunkEvent(DataCompond compond) {
+	public ChunkEvent(DataCompound compond) {
 		String path = "chunk.purge-on-unload";
 		List<String> list = compond.config().getStringList(path);
 		for (String line : list) {

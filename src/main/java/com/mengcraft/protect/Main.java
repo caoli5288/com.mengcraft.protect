@@ -21,7 +21,7 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        DataCompond compond = new DataCompond(this);
+        DataCompound compond = new DataCompound(this);
         compond.scheduler().runTask(this, new SpigotTask(this));
         Listener g = new EntityEvent(compond);
         compond.register(g);

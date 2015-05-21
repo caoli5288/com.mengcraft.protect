@@ -1,6 +1,9 @@
 package com.mengcraft.protect;
 
+import java.util.List;
+
 import org.bukkit.Server;
+import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -8,11 +11,11 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.scheduler.BukkitScheduler;
 
-public class DataCompond {
+public class DataCompound {
 
 	private final Main main;
 
-	public DataCompond(Main main) {
+	public DataCompound(Main main) {
 		this.main = main;
 	}
 
@@ -42,6 +45,14 @@ public class DataCompond {
 
     public Player[] onlines() {
         return server().getOnlinePlayers();
+    }
+
+    public List<World> worlds() {
+        return server().getWorlds();
+    }
+
+    public World world(String next) {
+        return server().getWorld(next);
     }
 
 }
