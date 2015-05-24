@@ -17,23 +17,23 @@ public class EntityEvent implements Listener {
 	private final int world;
 	private final int chunk;
 	private final int spawn;
-	private final DataCompound compond;
+	private final DataCompound compound;
 
 	@EventHandler(ignoreCancelled = true)
 	public void handle(CreatureSpawnEvent event) {
 		Entity entity = event.getEntity();
 		if ((event.getSpawnReason() == SPAWNER && rand.nextInt(100) < spawn)
-				|| entity.getWorld().getEntities().size() > world
+				|| compound.worldEntities(entity.getWorld().getName()) > world
 				|| entity.getNearbyEntities(8, 8, 8).size() > chunk) {
 			event.setCancelled(true);
 		}
 	}
 
-	public EntityEvent(DataCompound compong) {
-		world = compong.config().getInt("entity.limit-world");
-		chunk = compong.config().getInt("entity.limit-chunk");
-		spawn = compong.config().getInt("entity.spawner.chance");
-		compond = compong;
+	public EntityEvent(DataCompound compound) {
+		world = compound.config().getInt("entity.limit-world");
+		chunk = compound.config().getInt("entity.limit-chunk");
+		spawn = compound.config().getInt("entity.spawner.chance");
+		this.compound = compound;
 	}
 
 }

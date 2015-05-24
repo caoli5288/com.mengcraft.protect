@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.World;
 import org.bukkit.command.Command;
@@ -54,7 +53,6 @@ public class Executor implements CommandExecutor {
                 builder.append("§6Perform clean a chunks done!");
             }
         } else {
-            builder.append(ChatColor.GOLD + "§6Chunk information:");
             int j = 0;
             for (World world : compound.worlds()) {
                 int i = world.getLoadedChunks().length;

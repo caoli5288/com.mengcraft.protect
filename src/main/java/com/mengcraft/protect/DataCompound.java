@@ -1,6 +1,8 @@
 package com.mengcraft.protect;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.bukkit.Server;
 import org.bukkit.World;
@@ -14,12 +16,24 @@ import org.bukkit.scheduler.BukkitScheduler;
 public class DataCompound {
 
 	private final Main main;
+	
+	private final Map<String, Integer> worldEntities;
 
 	public DataCompound(Main main) {
 		this.main = main;
+		this.worldEntities = new HashMap<String, Integer>();
 	}
 
-	public MetadataValue create(Object obj) {
+	public int worldEntities(String name) {
+	    Integer out = worldEntities.get(name);
+        return out != null ? out : 0;
+    }
+
+    public void worldEntities(String name, int size) {
+        worldEntities.put(name, size);
+    }
+
+    public MetadataValue create(Object obj) {
 		return new FixedMetadataValue(main, obj);
 	}
 	

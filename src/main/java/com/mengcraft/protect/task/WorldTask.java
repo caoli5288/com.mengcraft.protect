@@ -1,10 +1,12 @@
 package com.mengcraft.protect.task;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 
@@ -17,19 +19,21 @@ public class WorldTask implements Runnable {
 
     @Override
     public void run() {
-        for (World w : compond.server().getWorlds()) {
+        for (World w : compond.worlds()) {
             task(w);
         }
     }
 
-    private void task(World w) {
-        for (Entity entity : w.getLivingEntities()) {
+    private void task(World world) {
+        List<Entity> entities = world.getEntities();
+        for (Entity entity : entities) {
             task(entity);
         }
+        compond.worldEntities(world.getName(), entities.size());
     }
 
     private void task(Entity e) {
-        if (!(e instanceof Player)) {
+        if (e instanceof LivingEntity && !(e instanceof Player)) {
             String type = e.getType().name();
             if (map.get(type) == null) {
                 cache(type, e instanceof Monster);

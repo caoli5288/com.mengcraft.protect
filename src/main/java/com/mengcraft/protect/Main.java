@@ -30,8 +30,8 @@ public class Main extends JavaPlugin {
         RedstoneEvent r = new RedstoneEvent(getConfig());
         compond.register(r);
         compond.scheduler().runTaskTimer(this, r, 20, 20);
-        Runnable t = new WorldTask(compond);
-        compond.scheduler().runTaskTimer(this, t, 3600, 3600);
+        Runnable worldTask = new WorldTask(compond);
+        compond.scheduler().runTaskTimer(this, worldTask, 3600, 3600);
         Runnable s = new RestartTask(this);
         long u = getConfig().getLong("manager.restart.daily", 24);
         if (u < 1) {
