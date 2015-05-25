@@ -17,7 +17,7 @@ import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import com.mengcraft.protect.DataCompound;
-import com.mengcraft.util.ArrayIttor;
+import com.mengcraft.protect.util.ArrayIttor;
 
 public class PlayerEvent implements Listener {
 

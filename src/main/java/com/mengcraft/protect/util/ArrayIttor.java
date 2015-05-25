@@ -1,4 +1,4 @@
-package com.mengcraft.util;
+package com.mengcraft.protect.util;
 
 import java.util.Iterator;
 

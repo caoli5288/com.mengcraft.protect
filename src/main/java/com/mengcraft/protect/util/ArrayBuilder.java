@@ -1,4 +1,4 @@
-package com.mengcraft.util;
+package com.mengcraft.protect.util;
 
 public class ArrayBuilder<T> {
 
@@ -20,7 +20,7 @@ public class ArrayBuilder<T> {
     public int length() {
         return cursor;
     }
-
+    
     public Object[] build() {
         Object[] output = new Object[cursor];
         while (cursor != 0) {
@@ -33,9 +33,9 @@ public class ArrayBuilder<T> {
         if (input.length < cursor) {
             throw new ArrayIndexOutOfBoundsException();
         }
-        Object[] temp = input;
+        Object[] output = input;
         while (cursor != 0) {
-            temp[--cursor] = array[cursor];
+            output[--cursor] = array[cursor];
         }
         return input;
     }
@@ -50,5 +50,19 @@ public class ArrayBuilder<T> {
             bigger[i] = array[i++];
         }
         this.array = bigger;
+    }
+    
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append('[');
+        for (int i = 0;i<cursor;i++) {
+            if (i > 0) {
+                builder.append(',');
+            }
+            builder.append(array[i]);
+        }
+        builder.append(']');
+        return builder.toString();
     }
 }
