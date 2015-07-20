@@ -29,7 +29,7 @@ public class ChunkEvent implements Listener {
         if (unload) try {
             check(c);
         } catch (Exception e) {
-            compound.warn(e);
+            compound.info(e.getMessage());
         }
         for (Entity e : c.getEntities()) {
             check(e);

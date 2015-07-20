@@ -69,8 +69,12 @@ public class DataCompound {
         return server().getWorld(next);
     }
 
-    public void warn(Object e) {
-        main.getLogger().warning(e.toString());
+    public void warn(String in) {
+        main.getLogger().warning(in);
+    }
+
+    public void info(String in) {
+        main.getLogger().info(in);
     }
 
 }
