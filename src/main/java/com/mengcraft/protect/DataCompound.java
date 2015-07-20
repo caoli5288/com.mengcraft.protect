@@ -15,17 +15,17 @@ import org.bukkit.scheduler.BukkitScheduler;
 
 public class DataCompound {
 
-	private final Main main;
-	
-	private final Map<String, Integer> worldEntities;
+    private final Main main;
 
-	public DataCompound(Main main) {
-		this.main = main;
-		this.worldEntities = new HashMap<String, Integer>();
-	}
+    private final Map<String, Integer> worldEntities;
 
-	public int worldEntities(String name) {
-	    Integer out = worldEntities.get(name);
+    public DataCompound(Main main) {
+        this.main = main;
+        this.worldEntities = new HashMap<String, Integer>();
+    }
+
+    public int worldEntities(String name) {
+        Integer out = worldEntities.get(name);
         return out != null ? out : 0;
     }
 
@@ -34,16 +34,16 @@ public class DataCompound {
     }
 
     public MetadataValue create(Object obj) {
-		return new FixedMetadataValue(main, obj);
-	}
-	
-	public ConfigurationSection config() {
-		return main.getConfig().getConfigurationSection("manager.");
-	}
-	
-	public Server server() {
-		return main.getServer();
-	}
+        return new FixedMetadataValue(main, obj);
+    }
+
+    public ConfigurationSection config() {
+        return main.getConfig().getConfigurationSection("manager.");
+    }
+
+    public Server server() {
+        return main.getServer();
+    }
 
     public Main main() {
         return main;
@@ -52,7 +52,7 @@ public class DataCompound {
     public BukkitScheduler scheduler() {
         return server().getScheduler();
     }
-    
+
     public void register(Listener listener) {
         server().getPluginManager().registerEvents(listener, main);
     }
@@ -67,6 +67,10 @@ public class DataCompound {
 
     public World world(String next) {
         return server().getWorld(next);
+    }
+
+    public void warn(Object e) {
+        main.getLogger().warning(e.toString());
     }
 
 }
