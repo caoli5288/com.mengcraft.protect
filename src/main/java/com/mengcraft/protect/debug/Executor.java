@@ -71,7 +71,7 @@ public class Executor implements CommandExecutor {
                 builder.append("§6Perform unload chunks done!");
             } else if (act.equals("clean") && it.hasNext()) {
                 chunkClean(it.next());
-                builder.append("§6Perform clean a chunks done!");
+                builder.append("§6Perform clean a chunk done!");
             }
         } else {
             int j = 0;
