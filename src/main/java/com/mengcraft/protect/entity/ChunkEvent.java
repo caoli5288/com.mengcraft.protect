@@ -21,16 +21,13 @@ public class ChunkEvent implements Listener {
     private final Queue<Chunk> chunks = new LinkedBlockingDeque<Chunk>();
     private boolean unload;
     private final int limit;
-    private DataCompound compound;
 
     @EventHandler
     public void handle(ChunkLoadEvent event) {
         Chunk c = event.getChunk();
-        if (unload) try {
+        if (unload) {
             check(c);
-        } catch (Exception e) {
-            compound.info(e.getMessage());
-        }
+        } 
         for (Entity e : c.getEntities()) {
             check(e);
         }
@@ -75,7 +72,6 @@ public class ChunkEvent implements Listener {
             compound.config().set(s, i);
         }
         limit = i;
-        this.compound = compound;
     }
 
 }
