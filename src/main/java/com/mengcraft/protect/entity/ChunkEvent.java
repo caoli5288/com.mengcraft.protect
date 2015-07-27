@@ -38,7 +38,7 @@ public class ChunkEvent implements Listener {
 
     private void check(Chunk c) {
         int i = limit / 20;
-        while (chunks.size() > limit && i-- != 0) {
+        while (chunks.size() > limit && i-- != 0) try {
             Chunk d = chunks.poll();
             // Re-add the chunk to the queue only if
             // it is loaded and unload failed.
@@ -49,6 +49,9 @@ public class ChunkEvent implements Listener {
             } else if (d.isLoaded()) {
                 unload = false;
             }
+        } catch (Exception e) {
+            // May throw exception when Chunk#unload().
+            compound.info(e.getMessage());
         }
         chunks.offer(c);
     }
