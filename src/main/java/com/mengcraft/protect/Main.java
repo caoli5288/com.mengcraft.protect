@@ -66,7 +66,8 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onLoad() {
-        saveResource("config.yml", false);
+    	getConfig().options().copyDefaults(true);
+    	saveConfig();
     }
 
 }
