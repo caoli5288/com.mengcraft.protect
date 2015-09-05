@@ -62,6 +62,7 @@ public class Main extends JavaPlugin {
             w.save();
         }
         saveConfig();
+        getServer().shutdown();
     }
 
     @Override
