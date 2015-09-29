@@ -19,7 +19,7 @@ public class SpigotTask implements Runnable {
 	@Override
 	public void run() {
 		File file = new File("spigot.yml");
-		if (file.exists() != false) {
+		if (file.exists()) {
 			spigot(file);
 		}
 	}
@@ -48,7 +48,7 @@ public class SpigotTask implements Runnable {
 		sp.set("world-settings.default.entity-activation-range.monsters",
 				range * 6);
 		sp.set("world-settings.default.entity-activation-range.misc",
-				range * 1);
+				range);
 		try {
 			sp.save(file);
 		} catch (IOException e) {

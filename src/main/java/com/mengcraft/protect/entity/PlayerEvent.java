@@ -122,7 +122,7 @@ public class PlayerEvent implements Listener {
 
 	private class KickTask implements Runnable {
 		
-		private Player p;
+		private final Player p;
 	
 		@Override
 		public void run() {
