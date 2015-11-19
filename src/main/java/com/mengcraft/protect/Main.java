@@ -39,8 +39,9 @@ public class Main extends JavaPlugin {
             getConfig().set("manager.restart.daily", u);
         }
         compond.scheduler().runTaskTimer(this, s, u * 72000, 1200);
-        Listener q = new ChunkEvent(compond);
-        compond.register(q);
+        if (getConfig().getBoolean("manager.chunk.auto-unload")) {
+            compond.register(new ChunkEvent(compond));
+        }
         getCommand("protect").setExecutor(new Executor(compond));
         try {
             new Metrics(this).start();
