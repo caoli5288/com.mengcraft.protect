@@ -33,7 +33,7 @@ public class SpigotTask implements Runnable {
 			sp.set("commands.tab-complete", tc ? 0 : -1);
 		}
 		int view = config.getInt("manager.spigot.view-distance");
-		if (view < 3 || view > 4) {
+		if (view < 2 || view > 8) {
 			view = 4;
 			config.set("manager.spigot.view-distance", 4);
 		}
