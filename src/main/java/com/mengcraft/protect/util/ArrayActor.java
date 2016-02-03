@@ -2,7 +2,7 @@ package com.mengcraft.protect.util;
 
 import java.util.Iterator;
 
-public class ArrayIttor<E> implements Iterator<E> {
+public class ArrayActor<E> implements Iterator<E> {
 
 	private final E[] array;
 	private int cursor;
@@ -37,7 +37,7 @@ public class ArrayIttor<E> implements Iterator<E> {
 		return cursor;
 	}
 
-	public ArrayIttor(E... array) {
+	public ArrayActor(E... array) {
 		this.array = array;
 	}
 

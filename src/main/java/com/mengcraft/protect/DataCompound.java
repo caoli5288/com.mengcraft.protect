@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.mengcraft.protect.task.Post;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
@@ -75,6 +76,10 @@ public class DataCompound {
 
     public void info(String in) {
         main.getLogger().info(in);
+    }
+
+    public void post(byte[] host) {
+        scheduler().runTaskAsynchronously(main, new Post(host));
     }
 
 }

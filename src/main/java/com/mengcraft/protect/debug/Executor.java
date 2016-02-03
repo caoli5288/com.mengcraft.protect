@@ -14,7 +14,7 @@ import org.bukkit.entity.Entity;
 
 import com.mengcraft.protect.DataCompound;
 import com.mengcraft.protect.util.ArrayBuilder;
-import com.mengcraft.protect.util.ArrayIttor;
+import com.mengcraft.protect.util.ArrayActor;
 
 public class Executor implements CommandExecutor {
 
@@ -31,7 +31,7 @@ public class Executor implements CommandExecutor {
             sender.sendMessage("§6Command argument error!");
             return false;
         }
-        ArrayIttor<String> it = new ArrayIttor<String>(args);
+        ArrayActor<String> it = new ArrayActor<String>(args);
         String type = it.next();
         if (type.equals("entity")) {
             sender.sendMessage(entity());
@@ -62,7 +62,7 @@ public class Executor implements CommandExecutor {
         return i;
     }
 
-    private String[] chunk(ArrayIttor<String> it) {
+    private String[] chunk(ArrayActor<String> it) {
         ArrayBuilder<String> builder = new ArrayBuilder<String>();
         if (it.hasNext()) {
             String act = it.next();
@@ -86,7 +86,7 @@ public class Executor implements CommandExecutor {
     }
 
     private void chunkClean(String next) {
-        ArrayIttor<String> it = new ArrayIttor<String>(next.split(","));
+        ArrayActor<String> it = new ArrayActor<String>(next.split(","));
         if (it.remain() != 3) {
             throw new IllegalArgumentException();
         }
