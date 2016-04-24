@@ -85,7 +85,7 @@ public class PlayerEvent implements Listener {
     }
 
     private Player select() {
-        Player[] array = compound.onlines();
+        Player[] array = compound.online();
         ArrayActor<Player> it = new ArrayActor<Player>(array);
         while (it.remain() > 1) {
             Player p = it.next();
@@ -97,7 +97,7 @@ public class PlayerEvent implements Listener {
     }
 
     private int size() {
-        return compound.onlines().length;
+        return compound.online().length;
     }
 
     private int check(String host) {

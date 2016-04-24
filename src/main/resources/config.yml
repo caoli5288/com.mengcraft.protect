@@ -1,8 +1,7 @@
 manager:
   chunk:
-    auto-unload: true
-    limit-total: 6500
     purge-on-unload:
+    - 'arror'
   redstone:
     limit-freq: 35
     white-list:

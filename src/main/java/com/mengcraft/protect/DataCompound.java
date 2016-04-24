@@ -1,28 +1,25 @@
 package com.mengcraft.protect;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.mengcraft.protect.task.Post;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
-import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.metadata.MetadataValue;
 import org.bukkit.scheduler.BukkitScheduler;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class DataCompound {
 
-    private final Main main;
-
     private final Map<String, Integer> worldEntities;
+    private final Main main;
 
     public DataCompound(Main main) {
         this.main = main;
-        this.worldEntities = new HashMap<String, Integer>();
+        this.worldEntities = new HashMap<>();
     }
 
     public int worldEntities(String name) {
@@ -32,10 +29,6 @@ public class DataCompound {
 
     public void worldEntities(String name, int size) {
         worldEntities.put(name, size);
-    }
-
-    public MetadataValue create(Object obj) {
-        return new FixedMetadataValue(main, obj);
     }
 
     public ConfigurationSection config() {
@@ -58,11 +51,11 @@ public class DataCompound {
         server().getPluginManager().registerEvents(listener, main);
     }
 
-    public Player[] onlines() {
+    public Player[] online() {
         return server().getOnlinePlayers();
     }
 
-    public List<World> worlds() {
+    public List<World> worldSet() {
         return server().getWorlds();
     }
 
@@ -70,16 +63,12 @@ public class DataCompound {
         return server().getWorld(next);
     }
 
-    public void warn(String in) {
-        main.getLogger().warning(in);
-    }
-
-    public void info(String in) {
-        main.getLogger().info(in);
-    }
-
     public void post(byte[] host) {
         scheduler().runTaskAsynchronously(main, new Post(host));
+    }
+
+    public void save() {
+        main.saveConfig();
     }
 
 }

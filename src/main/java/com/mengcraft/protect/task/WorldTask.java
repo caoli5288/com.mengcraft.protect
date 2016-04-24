@@ -1,25 +1,24 @@
 package com.mengcraft.protect.task;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.mengcraft.protect.DataCompound;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 
-import com.mengcraft.protect.DataCompound;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class WorldTask implements Runnable {
 
-    private final DataCompound compond;
-    private final Map<String, Integer> map;
+    private final Map<String, Integer> map = new HashMap<>();
+    private final DataCompound compound;
 
     @Override
     public void run() {
-        for (World w : compond.worlds()) {
+        for (World w : compound.worldSet()) {
             task(w);
         }
     }
@@ -29,7 +28,7 @@ public class WorldTask implements Runnable {
         for (Entity entity : entities) {
             task(entity);
         }
-        compond.worldEntities(world.getName(), entities.size());
+        compound.worldEntities(world.getName(), entities.size());
     }
 
     private void task(Entity e) {
@@ -44,14 +43,15 @@ public class WorldTask implements Runnable {
 
     private void cache(String type, boolean b) {
         String path = "entity.control." + type.toLowerCase() + ".lifetime";
-        int limit = compond.config().getInt(path, -1);
+        int limit = compound.config().getInt(path, -1);
         if (limit < 0) {
             if (b) {
                 limit = 12000;
             } else {
                 limit = 0;
             }
-            compond.config().set(path, limit);
+            compound.config().set(path, limit);
+            compound.save();
         }
         map.put(type, limit);
     }
@@ -62,9 +62,8 @@ public class WorldTask implements Runnable {
         }
     }
 
-    public WorldTask(DataCompound f) {
-        this.compond = f;
-        this.map = new HashMap<String, Integer>();
+    public WorldTask(DataCompound compound) {
+        this.compound = compound;
     }
 
 }

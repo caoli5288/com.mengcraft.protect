@@ -44,7 +44,7 @@ public class Executor implements CommandExecutor {
     private String[] entity() {
         ArrayBuilder<String> builder = new ArrayBuilder<String>();
         Map<String, Integer> map = new HashMap<String, Integer>();
-        for (World world : compound.worlds()) {
+        for (World world : compound.worldSet()) {
             put(map, world);
         }
         for (Entry<String, Integer> en : map.entrySet()) {
@@ -75,7 +75,7 @@ public class Executor implements CommandExecutor {
             }
         } else {
             int j = 0;
-            for (World world : compound.worlds()) {
+            for (World world : compound.worldSet()) {
                 int i = world.getLoadedChunks().length;
                 builder.append("§6" + world.getName() + ": " + i);
                 j += i;
@@ -99,7 +99,7 @@ public class Executor implements CommandExecutor {
     }
 
     private void chunkUnload() {
-        for (World world : compound.worlds()) {
+        for (World world : compound.worldSet()) {
             for (Chunk chunk : world.getLoadedChunks()) {
                 chunk.unload(true, true);
             }

@@ -6,7 +6,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.mcstats.Metrics;
+import com.mengcraft.protect.util.Metrics;
 
 import com.mengcraft.protect.debug.Executor;
 import com.mengcraft.protect.entity.ChunkEvent;
@@ -62,14 +62,13 @@ public class Main extends JavaPlugin {
         for (World w : getServer().getWorlds()) {
             w.save();
         }
-        saveConfig();
         getServer().shutdown();
     }
 
     @Override
     public void onLoad() {
-    	getConfig().options().copyDefaults(true);
-    	saveConfig();
+        getConfig().options().copyDefaults(true);
+        saveConfig();
     }
 
 }
