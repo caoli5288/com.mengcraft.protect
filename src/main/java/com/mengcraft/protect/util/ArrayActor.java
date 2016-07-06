@@ -23,7 +23,7 @@ public class ArrayActor<E> implements Iterator<E> {
 	}
 
 	public E get(int index) {
-		if (index < 00 || index >= array.length) {
+		if (index < 0 || index >= array.length) {
 			throw new IndexOutOfBoundsException();
 		}
 		return array[index];

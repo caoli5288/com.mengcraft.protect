@@ -1,13 +1,11 @@
 package com.mengcraft.protect.entity;
 
 import com.mengcraft.protect.DataCompound;
-import org.bukkit.Chunk;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.ChunkLoadEvent;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

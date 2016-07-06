@@ -55,7 +55,7 @@ public class RedstoneEvent implements Runnable, Listener {
 
 	public RedstoneEvent(Configuration conf) {
 		this.list = conf.getIntegerList("manager.redstone.white-list");
-		this.cache = new HashMap<Block, Integer>();
+		this.cache = new HashMap<>();
 		this.limit = conf.getInt("manager.redstone.limit-freq", 35);
 		this.replace = conf.getBoolean("manager.redstone.replace");
 	}

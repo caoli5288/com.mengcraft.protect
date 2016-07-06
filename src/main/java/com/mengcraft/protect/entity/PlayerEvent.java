@@ -1,12 +1,6 @@
 package com.mengcraft.protect.entity;
 
-import static org.bukkit.event.player.PlayerLoginEvent.Result.ALLOWED;
-import static org.bukkit.event.player.PlayerLoginEvent.Result.KICK_FULL;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.mengcraft.protect.DataCompound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,8 +10,13 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import com.mengcraft.protect.DataCompound;
-import com.mengcraft.protect.util.ArrayActor;
+import java.util.HashMap;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
+
+import static org.bukkit.event.player.PlayerLoginEvent.Result.ALLOWED;
+import static org.bukkit.event.player.PlayerLoginEvent.Result.KICK_FULL;
 
 public class PlayerEvent implements Listener {
 
@@ -85,19 +84,18 @@ public class PlayerEvent implements Listener {
     }
 
     private Player select() {
-        Player[] array = compound.online();
-        ArrayActor<Player> it = new ArrayActor<Player>(array);
-        while (it.remain() > 1) {
+        ListIterator<Player> it = compound.online().listIterator();
+        while (it.hasNext()) {
             Player p = it.next();
             if (!p.hasPermission(PERM_FULL)) {
                 return p;
             }
         }
-        return it.next();
+        return it.previous();
     }
 
     private int size() {
-        return compound.online().length;
+        return compound.online().size();
     }
 
     private int check(String host) {

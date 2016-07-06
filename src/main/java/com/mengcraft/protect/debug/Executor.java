@@ -31,7 +31,7 @@ public class Executor implements CommandExecutor {
             sender.sendMessage("§6Command argument error!");
             return false;
         }
-        ArrayActor<String> it = new ArrayActor<String>(args);
+        ArrayActor<String> it = new ArrayActor<>(args);
         String type = it.next();
         if (type.equals("entity")) {
             sender.sendMessage(entity());
@@ -42,8 +42,8 @@ public class Executor implements CommandExecutor {
     }
 
     private String[] entity() {
-        ArrayBuilder<String> builder = new ArrayBuilder<String>();
-        Map<String, Integer> map = new HashMap<String, Integer>();
+        ArrayBuilder<String> builder = new ArrayBuilder<>();
+        Map<String, Integer> map = new HashMap<>();
         for (World world : compound.worldSet()) {
             put(map, world);
         }
@@ -63,7 +63,7 @@ public class Executor implements CommandExecutor {
     }
 
     private String[] chunk(ArrayActor<String> it) {
-        ArrayBuilder<String> builder = new ArrayBuilder<String>();
+        ArrayBuilder<String> builder = new ArrayBuilder<>();
         if (it.hasNext()) {
             String act = it.next();
             if (act.equals("unload")) {
@@ -86,7 +86,7 @@ public class Executor implements CommandExecutor {
     }
 
     private void chunkClean(String next) {
-        ArrayActor<String> it = new ArrayActor<String>(next.split(","));
+        ArrayActor<String> it = new ArrayActor<>(next.split(","));
         if (it.remain() != 3) {
             throw new IllegalArgumentException();
         }
@@ -115,7 +115,7 @@ public class Executor implements CommandExecutor {
     private void put(Map<String, Integer> map, Entity entity) {
         String name = entity.getType().name();
         if (map.get(name) != null) {
-            map.put(name, map.get(name) + 01);
+            map.put(name, map.get(name) + 1);
         } else {
             map.put(name, 1);
         }

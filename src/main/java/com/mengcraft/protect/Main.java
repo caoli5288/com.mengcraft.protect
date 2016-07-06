@@ -1,13 +1,5 @@
 package com.mengcraft.protect;
 
-import java.io.IOException;
-
-import org.bukkit.ChatColor;
-import org.bukkit.World;
-import org.bukkit.event.Listener;
-import org.bukkit.plugin.java.JavaPlugin;
-import com.mengcraft.protect.util.Metrics;
-
 import com.mengcraft.protect.debug.Executor;
 import com.mengcraft.protect.entity.ChunkEvent;
 import com.mengcraft.protect.entity.EntityEvent;
@@ -16,8 +8,24 @@ import com.mengcraft.protect.entity.RedstoneEvent;
 import com.mengcraft.protect.task.RestartTask;
 import com.mengcraft.protect.task.SpigotTask;
 import com.mengcraft.protect.task.WorldTask;
+import com.mengcraft.protect.util.Metrics;
+import org.bukkit.ChatColor;
+import org.bukkit.World;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 public class Main extends JavaPlugin {
+
+    private Method a;
 
     @Override
     public void onEnable() {
@@ -54,6 +62,25 @@ public class Main extends JavaPlugin {
         };
         getServer().getConsoleSender().sendMessage(strings);
         getLogger().info("Enabled Protect done!");
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<Player> getCurrentOnline() {
+        if (a == null) {
+            try {
+                a = getServer().getClass().getMethod("getOnlinePlayers");
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            }
+        }
+        Object result;
+        try {
+            result = a.invoke(getServer());
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            result = null;
+        }
+        getServer().getOnlinePlayers();
+        return (result == null ? new ArrayList<>() : result instanceof Collection ? new ArrayList<>(((Collection) result)) : Arrays.asList(((Player[]) result)));
     }
 
     @Override

@@ -51,8 +51,8 @@ public class DataCompound {
         server().getPluginManager().registerEvents(listener, main);
     }
 
-    public Player[] online() {
-        return server().getOnlinePlayers();
+    public List<Player> online() {
+        return main.getCurrentOnline();
     }
 
     public List<World> worldSet() {
