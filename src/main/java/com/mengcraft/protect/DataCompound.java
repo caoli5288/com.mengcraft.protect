@@ -1,6 +1,5 @@
 package com.mengcraft.protect;
 
-import com.mengcraft.protect.task.Post;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
@@ -61,10 +60,6 @@ public class DataCompound {
 
     public World world(String next) {
         return server().getWorld(next);
-    }
-
-    public void post(byte[] host) {
-        scheduler().runTaskAsynchronously(main, new Post(host));
     }
 
     public void save() {

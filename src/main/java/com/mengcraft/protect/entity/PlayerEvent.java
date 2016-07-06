@@ -80,7 +80,6 @@ public class PlayerEvent implements Listener {
         while (size() > max) {
             select().kickPlayer(MESS_FULL);
         }
-        compound.post(e.getPlayer().getAddress().getAddress().getAddress());
     }
 
     private Player select() {
