@@ -76,11 +76,10 @@ public class Main extends JavaPlugin {
         Object result;
         try {
             result = a.invoke(getServer());
-        } catch (IllegalAccessException | InvocationTargetException e) {
+        } catch (IllegalAccessException | InvocationTargetException ignored) {
             result = null;
         }
-        getServer().getOnlinePlayers();
-        return (result == null ? new ArrayList<>() : result instanceof Collection ? new ArrayList<>(((Collection) result)) : Arrays.asList(((Player[]) result)));
+        return (result == null ? new ArrayList<>() : result instanceof Collection ? new ArrayList<>(((Collection) result)) : new ArrayList<>(Arrays.asList(((Player[]) result))));
     }
 
     @Override
