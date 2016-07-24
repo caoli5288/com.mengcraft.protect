@@ -1,13 +1,13 @@
 package com.mengcraft.protect;
 
-import com.mengcraft.protect.debug.Executor;
-import com.mengcraft.protect.entity.ChunkEvent;
-import com.mengcraft.protect.entity.EntityEvent;
-import com.mengcraft.protect.entity.PlayerEvent;
-import com.mengcraft.protect.entity.RedstoneEvent;
+import com.mengcraft.protect.listener.ChunkEvent;
+import com.mengcraft.protect.listener.EntityEvent;
+import com.mengcraft.protect.listener.PlayerEvent;
+import com.mengcraft.protect.listener.RedstoneEvent;
 import com.mengcraft.protect.task.RestartTask;
 import com.mengcraft.protect.task.SpigotTask;
 import com.mengcraft.protect.task.WorldTask;
+import com.mengcraft.protect.task.YumSubscribeTask;
 import com.mengcraft.protect.util.Metrics;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
@@ -51,6 +51,12 @@ public class Main extends JavaPlugin {
             compond.register(new ChunkEvent(compond));
         }
         getCommand("protect").setExecutor(new Executor(compond));
+
+        if (getConfig().getBoolean("subscribe.yum")) {
+            if (!getServer().getPluginManager().isPluginEnabled("Yum")) {
+                getServer().getScheduler().runTaskAsynchronously(this, new YumSubscribeTask(this));
+            }
+        }
         try {
             new Metrics(this).start();
         } catch (IOException e) {

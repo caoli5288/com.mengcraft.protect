@@ -1,4 +1,4 @@
-package com.mengcraft.protect.entity;
+package com.mengcraft.protect.listener;
 
 import com.mengcraft.protect.DataCompound;
 import org.bukkit.entity.Entity;

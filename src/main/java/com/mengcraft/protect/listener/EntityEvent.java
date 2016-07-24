@@ -1,4 +1,4 @@
-package com.mengcraft.protect.entity;
+package com.mengcraft.protect.listener;
 
 import static org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.SPAWNER;
 

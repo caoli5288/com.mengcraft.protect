@@ -27,3 +27,5 @@ manager:
   restart:
     daily: 24
     limit: 5
+subscribe:
+  yum: true

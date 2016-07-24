@@ -1,6 +1,7 @@
 name: Protect
 main: com.mengcraft.protect.Main
-version: 2.2.3
+version: ${project.version}
+author: meng
 
 commands:
   protect:
@@ -11,3 +12,5 @@ permissions:
   protect.admin:
     description: Operator permission for this plug-in.
     default: op
+
+softdepend: [Yum]

@@ -1,10 +1,7 @@
-package com.mengcraft.protect.debug;
+package com.mengcraft.protect;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-
+import com.mengcraft.protect.util.ArrayActor;
+import com.mengcraft.protect.util.ArrayBuilder;
 import org.bukkit.Chunk;
 import org.bukkit.World;
 import org.bukkit.command.Command;
@@ -12,16 +9,17 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 
-import com.mengcraft.protect.DataCompound;
-import com.mengcraft.protect.util.ArrayBuilder;
-import com.mengcraft.protect.util.ArrayActor;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class Executor implements CommandExecutor {
 
     private final DataCompound compound;
 
-    public Executor(DataCompound compond) {
-        this.compound = compond;
+    public Executor(DataCompound compound) {
+        this.compound = compound;
     }
 
     @Override
